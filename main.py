@@ -43,15 +43,14 @@ X_train , X_test , Y_train , Y_test = train_test_split(features,labels,test_size
 X_val , X_test , Y_val , Y_test = train_test_split(X_test,Y_test,test_size=0.5 , random_state=42)
 
 
-for dataset in (Y_train, Y_val,Y_test):
-    print(round(len(dataset) / len(labels) , 2))
+# for dataset in (Y_train, Y_val,Y_test):
+#     # print(round(len(dataset) / len(labels) , 2))
     
     
     
     
-    
-from sklearn.ensemble import GradientBoostingClassifier , AdaBoostClassifier
 from sklearn.model_selection import GridSearchCV  #GridSearchCV will help us fit and evaluate a model from scikit-learn.
+from sklearn.ensemble import GradientBoostingClassifier , AdaBoostClassifier
 
 def print_result(results):
     print('Best parameters: {}\n'.format(results.best_params_))
@@ -59,5 +58,22 @@ def print_result(results):
     means = results.cv_results_['mean_test_score']
     stds = results.cv_results_['std_test_score']
 
-    for means , stds , params in zip (means, stds, results.cv_results_['params']):
-        print('{}(+/- {}) for {}'.format(round))
+    for mean , std , params in zip (means, stds, results.cv_results_['params']):
+        print ('{}(+/- {}) for {}'.format(round(mean , 3) ,round(std * 2 ,3),params))
+        
+        
+gb = GradientBoostingClassifier()
+Parameters = {
+    'n_estimators': [5,50,250,500],
+    'max_depth' : [1,3,5,7,9],
+    'learning_rate' : [0.01,0.1,10,100]
+}
+
+cv = GridSearchCV(gb, Parameters , cv=5)
+cv.fit(features , labels.values.ravel())
+
+print_result(cv)
+
+print(cv.best_estimator_)
+
+joblib.dump(cv.best_estimator_ , '../../../models/GB_model.pkl')
