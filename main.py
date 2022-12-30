@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as  np
 import seaborn as sns
+import joblib
 from matplotlib import pyplot as plt
 titanic = pd.read_csv("Titanic-Dataset.csv")
 # print(titanic.head())
@@ -44,3 +45,19 @@ X_val , X_test , Y_val , Y_test = train_test_split(X_test,Y_test,test_size=0.5 ,
 
 for dataset in (Y_train, Y_val,Y_test):
     print(round(len(dataset) / len(labels) , 2))
+    
+    
+    
+    
+    
+from sklearn.ensemble import GradientBoostingClassifier , AdaBoostClassifier
+from sklearn.model_selection import GridSearchCV  #GridSearchCV will help us fit and evaluate a model from scikit-learn.
+
+def print_result(results):
+    print('Best parameters: {}\n'.format(results.best_params_))
+    
+    means = results.cv_results_['mean_test_score']
+    stds = results.cv_results_['std_test_score']
+
+    for means , stds , params in zip (means, stds, results.cv_results_['params']):
+        print('{}(+/- {}) for {}'.format(round))
