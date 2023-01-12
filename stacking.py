@@ -11,13 +11,13 @@ titanic = pd.read_csv("Titanic-Dataset.csv")
 titanic['Age'].fillna(titanic['Age'].mean() , inplace=True)
 # print(titanic.head(10))
 
-for i , col in enumerate (['SibSp' , 'Parch']):
-    plt.figure(i)
-    sns.catplot(x=col , y = 'Survived' , data=titanic , kind='point' , aspect=2,)
+# for i , col in enumerate (['SibSp' , 'Parch']):
+#     plt.figure(i)
+#     sns.catplot(x=col , y = 'Survived' , data=titanic , kind='point' , aspect=2,)
 
 
-titanic['Family_count'] = titanic['SibSp'] + titanic['Parch']
-titanic.drop(['PassengerId' , 'SibSp' , 'Parch'] , axis=1 , inplace=True)
+# titanic['Family_count'] = titanic['SibSp'] + titanic['Parch']
+# titanic.drop(['PassengerId' , 'SibSp' , 'Parch'] , axis=1 , inplace=True)
 
 
 # <---------------------- Cleaning catogerical Data ---------------------->
@@ -58,10 +58,10 @@ sc.get_params()
 parameters={
     'gb__n_estimators':[50,100],
     'rf__n_estimators':[50,100],
-    'final_estimators':[LogisticRegression(C=0.1),
+    'final_estimator':[LogisticRegression(C=0.1),
                         LogisticRegression(C=1),
                         LogisticRegression(C=10)],
-    'passthrough':[]
+    'passthrough':[True,False]
 }
 
 
